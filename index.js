@@ -1,20 +1,3 @@
-// import Fastify from "fastify";
-
-// const fastify = Fastify({
-//   logger: true,
-// });
-
-// fastify.get("/123", function (request, reply) {
-//   reply.send({ hello: "world" });
-// });
-
-// fastify.listen({ port: 3000 }, function (err, address) {
-//   if (err) {
-//     fastify.log.error(err);
-//     process.exit(1);
-//   }
-// });
-
 import Fastify from "fastify";
 
 const fastify = Fastify({
@@ -26,6 +9,10 @@ fastify.get("/", async (req, reply) => {
 });
 
 fastify.get("/123", function (req, reply) {
+  reply.send({ 123: "number" });
+});
+
+fastify.get("/hello", function (req, reply) {
   reply.send({ hello: "world" });
 });
 
