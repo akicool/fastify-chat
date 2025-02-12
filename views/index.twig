@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <h2>Fastify Chat</h2>
-        <p>Онлайн пользователей: <span id="online-count">{{ onlineUsers }}</span></p>
+        <p>Онлайн пользователей: <span id="online-count">{{ onlineUsers|default(0) }}</span></p>
 
         <form id="username-form" onsubmit="setUsername(); return false;">
             <input type="text" id="username" placeholder="Введите ник" />
