@@ -5,26 +5,30 @@
     <title>Fastify Chat</title>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <style>
-        body { display: flex; justify-content: center; align-items: center; flex-direction: column; font-family: Arial, sans-serif; max-width: 600px; height: 100vh; margin: 20px auto; text-align: center; }
+        * { padding: 0; margin: 0; box-sizing: border-box; }
+        .container { display: flex; justify-content: center; align-items: center; flex-direction: column; font-family: Arial, sans-serif; width: 100%; max-width: 600px; height: 100vh; padding: 20px auto; text-align: center; margin: 0 auto; gap: 20px; }
         input, button { margin: 5px; padding: 10px; }
         #messages { border: 1px solid #ddd; height: 300px; overflow-y: scroll; padding: 10px; text-align: left; }
+        #chat { width: 100% }
     </style>
 </head>
 <body>
-    <h2>Fastify Chat</h2>
-    <p>Онлайн пользователей: <span id="online-count">{{ onlineUsers }}</span></p>
+    <div class="container">
+        <h2>Fastify Chat</h2>
+        <p>Онлайн пользователей: <span id="online-count">{{ onlineUsers }}</span></p>
 
-    <form id="username-form" onsubmit="setUsername(); return false;">
-        <input type="text" id="username" placeholder="Введите ник" />
-        <button type="submit">Войти</button>
-    </form>
-
-    <div id="chat" style="display: none;">
-        <div id="messages"></div>
-        <form onsubmit="sendMessage(); return false;">
-            <input type="text" id="message" placeholder="Введите сообщение" />
-            <button type="submit">Отправить</button>
+        <form id="username-form" onsubmit="setUsername(); return false;">
+            <input type="text" id="username" placeholder="Введите ник" />
+            <button type="submit">Войти</button>
         </form>
+
+        <div id="chat" style="display: none;">
+            <div id="messages"></div>
+            <form onsubmit="sendMessage(); return false;">
+                <input type="text" id="message" placeholder="Введите сообщение" />
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
     </div>
 
     <script>
