@@ -10,15 +10,31 @@ const fastify = Fastify({
   logger: true,
 });
 
+// const socket = io("https://fastify-chat-akicool.vercel.app", {
+//   transports: ["polling"],
+// });
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const viewsPath = path.join(__dirname, "..", "views");
-const io = new Server(fastify.server);
+const io = new Server(fastify.server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+  allowEIO3: true,
+});
 
 fastify.register(fastifyView, {
   engine: { twig },
   root: viewsPath,
+});
+
+//
+fastify.register(require("@fastify/cors"), {
+  origin: "*",
+  methods: ["GET", "POST"],
 });
 
 fastify.register(fastifyStatic, {
