@@ -5,8 +5,7 @@ const fastify = Fastify({
 });
 
 fastify.get("/", async (req, reply) => {
-  //   return reply.status(200).type("text/html").send(html);
-  return reply.status(200).send({ fastify: "server" });
+  return reply.status(200).type("text/html").send(html);
 });
 
 fastify.get("/api", function (req, reply) {
@@ -32,44 +31,23 @@ const html = `
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
     />
-    <title>Vercel + Fastify Hello World</title>
+    <title>Vercel + Fastify</title>
     <meta
       name="description"
       content="This is a starter template for Vercel + Fastify."
     />
   </head>
   <body>
-    <h1>Vercel + Fastify Hello World</h1>
+    <h1>Vercel + Fastify </h1>
+
     <p>
-      This is a starter template for Vercel + Fastify. Requests are
-      rewritten from <code>/*</code> to <code>/api/*</code>, which runs
-      as a Vercel Function.
+      This is a starter template for Vercel + Fastify. It also includes example
+      routes that can be accessed via the following links:
     </p>
-    <p>
-        For example, here is the boilerplate code for this route:
-    </p>
-    <pre>
-<code>import Fastify from 'fastify'
-
-const fastify = Fastify({
-  logger: true,
-})
-
-fastify.get('/', async (req, res) => {
-  return res.status(200).type('text/html').send(html)
-})
-
-export default async function handler(req: any, res: any) {
-  await fastify.ready()
-  fastify.server.emit('request', req, res)
-}</code>
-    </pre>
-    <p>
-    <p>
-      <a href="https://vercel.com/templates/other/fastify-serverless-function">
-      Deploy your own
-      </a>
-      to get started.
+    <ul>
+      <li><a href="/api">/api</a></li>
+      <li><a href="/hello">/hello</a></li>
+    </ul>
   </body>
 </html>
 `;
