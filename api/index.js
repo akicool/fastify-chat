@@ -78,7 +78,7 @@ fastify.get("/", async (req, reply) => {
   return reply.view("index.twig", { onlineUsers: users.size });
 });
 
-fastify.listen({ port: 3000 });
+// fastify.listen({ port: 3000 });
 
 // fastify.get("/", (req, reply) => {
 //   reply.sendFile("index.html");
