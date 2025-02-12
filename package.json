@@ -1,11 +1,11 @@
 {
   "name": "fastify-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js",
+    "start": "fastify start -l info server.js",
+    "dev": "fastify start -w -l info -P server.js",
     "devv": "nodemon api/index.js"
   },
   "type": "commonjs",
