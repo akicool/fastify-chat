@@ -1,23 +1,24 @@
+import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";
 import fastifyView from "@fastify/view";
-import Fastify from "fastify";
-import path from "path";
-import { Server } from "socket.io";
+
 import twig from "twig";
+import { Server } from "socket.io";
+import serverless from "serverless-http";
+
+import path from "path";
 import { fileURLToPath } from "url";
+
 
 const fastify = Fastify({
   logger: true,
 });
 
-// const socket = io("https://fastify-chat-akicool.vercel.app", {
-//   transports: ["polling"],
-// });
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const viewsPath = path.join(__dirname, "..", "views");
+
 const io = new Server(fastify.server, {
   cors: {
     origin: "*",
@@ -26,15 +27,14 @@ const io = new Server(fastify.server, {
   allowEIO3: true,
 });
 
+// fastify.register(require("@fastify/cors"), {
+//   origin: "*",
+//   methods: ["GET", "POST"],
+// });
+
 fastify.register(fastifyView, {
   engine: { twig },
   root: viewsPath,
-});
-
-//
-fastify.register(require("@fastify/cors"), {
-  origin: "*",
-  methods: ["GET", "POST"],
 });
 
 fastify.register(fastifyStatic, {
@@ -78,6 +78,8 @@ io.on("connection", (socket) => {
 fastify.get("/", async (req, reply) => {
   return reply.view("index.twig", { onlineUsers: users.size });
 });
+
+export const handler = serverless(api);
 
 fastify.listen({ port: 3000 });
 
