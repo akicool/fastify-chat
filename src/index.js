@@ -1,20 +1,26 @@
 import Fastify from "fastify";
+
 const fastify = Fastify({
-    logger: true,
+  logger: true,
 });
+
 fastify.get("/", async (req, reply) => {
-    return reply.status(200).type("text/html").send(html);
+  return reply.status(200).type("text/html").send(html);
 });
+
 fastify.get("/api", function (req, reply) {
-    reply.send({ api: "worked" });
+  reply.send({ api: "worked 1 2 1" });
 });
+
 fastify.get("/hello", function (req, reply) {
-    reply.send({ hello: "world" });
+  reply.send({ hello: "world" });
 });
+
 export default async function handler(req, reply) {
-    await fastify.ready();
-    fastify.server.emit("request", req, reply);
+  await fastify.ready();
+  fastify.server.emit("request", req, reply);
 }
+
 const html = `
 <!DOCTYPE html>
 <html lang="en">

@@ -1,11 +1,10 @@
 {
   "name": "fastify-server",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.js",
-    "build": "tsc -p tsconfig.json"
+    "dev": "nodemon src/index.js"
   },
   "type": "module",
   "author": "",
