@@ -5,8 +5,8 @@ const fastify = Fastify({
 });
 
 fastify.get("/", async (req, reply) => {
-  // return reply.status(200).type("text/html").send(html);
-  return reply.status(200).send({ fastify: "server" });
+  return reply.status(200).type("text/html").send(html);
+  // return reply.status(200).send({ fastify: "server" });
 });
 
 fastify.get("/123", function (req, reply) {
