@@ -1,53 +1,70 @@
+import fastifyStatic from "@fastify/static";
+import fastifyView from "@fastify/view";
 import Fastify from "fastify";
+import path from "path";
+import { Server } from "socket.io";
+import twig from "twig";
+import { fileURLToPath } from "url";
 
 const fastify = Fastify({
   logger: true,
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const viewsPath = path.join(__dirname, "..", "views");
+const io = new Server(fastify.server);
+
+fastify.register(fastifyView, {
+  engine: { twig },
+  root: viewsPath,
+});
+
+fastify.register(fastifyStatic, {
+  root: path.join(__dirname, "public"),
+});
+
+// let users = new Set();
+let users = {};
+
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
+
+  socket.on("set_username", (name) => {
+    users[socket.id] = name;
+    io.emit("update_users", Object.keys(users).length);
+    io.emit("chat_message", {
+      user: "CHAT: ",
+      message: `${name} подключился!`,
+    });
+  });
+
+  socket.on("chat_message", (msg) => {
+    if (users[socket.id]) {
+      io.emit("chat_message", { user: users[socket.id], message: msg });
+    }
+  });
+
+  socket.on("disconnect", () => {
+    if (users[socket.id]) {
+      const username = users[socket.id];
+      delete users[socket.id];
+      io.emit("update_users", users.size);
+      io.emit("chat_message", {
+        user: "CHAT: ",
+        message: `${username} вышел.`,
+      });
+    }
+  });
+});
+
 fastify.get("/", async (req, reply) => {
-  return reply.status(200).type("text/html").send(html);
+  return reply.view("index.twig", { onlineUsers: users.size });
 });
 
-fastify.get("/api", function (req, reply) {
-  reply.send({ api: "worked 1 2 1" });
-});
+fastify.listen({ port: 3000 });
 
-fastify.get("/hello", function (req, reply) {
-  reply.send({ hello: "world" });
-});
-
-export default async function handler(req, reply) {
-  await fastify.ready();
-  fastify.server.emit("request", req, reply);
-}
-
-const html = `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel + Fastify</title>
-    <meta
-      name="description"
-      content="This is a starter template for Vercel + Fastify."
-    />
-  </head>
-  <body>
-    <h1>Vercel + Fastify </h1>
-
-    <p>
-      This is a starter template for Vercel + Fastify. It also includes example
-      routes that can be accessed via the following links:
-    </p>
-    <ul>
-      <li><a href="/api">/api</a></li>
-      <li><a href="/hello">/hello</a></li>
-    </ul>
-  </body>
-</html>
-`;
+// fastify.get("/", (req, reply) => {
+//   reply.sendFile("index.html");
+// });
