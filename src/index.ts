@@ -1,4 +1,5 @@
 import Fastify from "fastify";
+import { ReplyDefault } from "fastify/types/utils.js";
 
 const fastify = Fastify({
   logger: true,
@@ -16,7 +17,7 @@ fastify.get("/hello", function (req, reply) {
   reply.send({ hello: "world" });
 });
 
-export default async function handler(req, reply) {
+export default async function handler(req: Request, reply: ReplyDefault) {
   await fastify.ready();
   fastify.server.emit("request", req, reply);
 }
