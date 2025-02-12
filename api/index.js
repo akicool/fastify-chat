@@ -79,7 +79,7 @@ fastify.get("/", async (req, reply) => {
   return reply.view("index.twig", { onlineUsers: users.size });
 });
 
-export const handler = serverless(api);
+export const handler = serverless(fastify);
 
 fastify.listen({ port: 3000 });
 
