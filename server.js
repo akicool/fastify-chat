@@ -1,16 +1,3 @@
-("use strict");
-
-// // Pass --options via CLI arguments in command to enable these options.
-// const options = {};
-
-// module.exports = async function (fastify, opts) {
-//   fastify.get("/", async function (request, reply) {
-//     return "Timeweb Cloud + Fastify =️ ❤️";
-//   });
-// };
-
-// module.exports.options = options;
-
 const fastifyStatic = require("@fastify/static");
 const fastifyView = require("@fastify/view");
 const fastifyCors = require("@fastify/cors");
@@ -38,12 +25,12 @@ module.exports = async function (fastify, opts) {
   fastify.register(fastifyStatic, {
     root: path.join(__dirname, "public"),
   });
-  
+
   fastify.register(fastifyView, {
     engine: { twig },
     root: viewsPath,
   });
-  
+
   fastify.register(fastifyCors, {
     origin: "*",
     methods: ["GET", "POST"],
@@ -83,8 +70,8 @@ module.exports = async function (fastify, opts) {
   fastify.get("/", async (req, reply) => {
     return reply.view("index.twig", { onlineUsers: users.size });
   });
+
+  // fastify.listen({ port: 3000 });
 };
 
 module.exports.options = options;
-
-// fastify.listen({ port: 3000 });
