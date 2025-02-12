@@ -1,9 +1,4 @@
-[functions]
-  external_node_modules = ["fastify"]
-  node_bundler = "esbuild"
 [[redirects]]
-  force = true
-  from = "/api/*"
+  from = "/*"
+  to = "/"
   status = 200
-  to = "/.netlify/functions/api/index.js"
-
