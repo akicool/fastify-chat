@@ -9,7 +9,6 @@ import serverless from "serverless-http";
 import path from "path";
 import { fileURLToPath } from "url";
 
-
 const fastify = Fastify({
   logger: true,
 });
@@ -78,8 +77,6 @@ io.on("connection", (socket) => {
 fastify.get("/", async (req, reply) => {
   return reply.view("index.twig", { onlineUsers: users.size });
 });
-
-export const handler = serverless(fastify);
 
 fastify.listen({ port: 3000 });
 
