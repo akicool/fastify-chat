@@ -38,10 +38,12 @@ module.exports = async function (fastify, opts) {
   fastify.register(fastifyStatic, {
     root: path.join(__dirname, "public"),
   });
+  
   fastify.register(fastifyView, {
     engine: { twig },
     root: viewsPath,
   });
+  
   fastify.register(fastifyCors, {
     origin: "*",
     methods: ["GET", "POST"],
